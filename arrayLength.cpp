@@ -1,7 +1,7 @@
 #include <iostream>
 using namespace std;
 
-void binarySearch(int _a[],int element ){
+void arrayLength(int _a[],int element ){
 
     for(int i = 0; i < element; ++i)
     {
@@ -16,6 +16,6 @@ int main() {
         int arrayObj[] = {1,3,5,8,9,13,16,19,21,24,25,27,29};
         int length = sizeof(arrayObj)/sizeof(arrayObj[0]);
 
-        binarySearch(arrayObj,length);
+        arrayLength(arrayObj,length);
         return 0;
 }
