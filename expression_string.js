@@ -14,8 +14,8 @@ function Node(value) {
  * modifications to normal order of operations (like parenthesis
  * for mathematical expressions) and return the parsed expression.
  * 
- * For example, the expression: "a{b{c d} e{f}}" 
- * Would return: "abc abd aef"
+ * For example, the expression: "a{b{c,d},e{f}}" 
+ * Would return: "abc,abd,aef"
  *
  * @param {String} expr The expression to be parsed
  * @returns {String} The parsed expression
@@ -31,7 +31,7 @@ function solveWithTree(expr) {
   constructTree(expr, head, 0);
   deconstructTree(head, "", result);
   
-  return result.join(' ');
+  return result.join(',');
 };
 
 /*
@@ -39,8 +39,8 @@ function solveWithTree(expr) {
  * modifications to normal order of operations (like parenthesis
  * for mathematical expressions) and return the parsed expression.
  * 
- * For example, the expression: "a{b{c d} e{f}}" 
- * Would return: "abc abd aef"
+ * For example, the expression: "a{b{c,d},e{f}}" 
+ * Would return: "abc,abd,aef"
  *
  * @param {String} expr The expression to be parsed
  * @returns {String} The parsed expression
@@ -54,7 +54,7 @@ function solveWithoutTree(expr) {
   
   noTreeSolver(expr, 0, "", result);
   
-  return result.join(' ');
+  return result.join(',');
 };
 
 /*
@@ -82,7 +82,7 @@ function noTreeSolver(str, index, expr, result) {
       return index + 1;
     }
     
-    else if (str[index] === ' ') {
+    else if (str[index] === ',') {
       if (value.length) {
         result.push(expr + value);
         value = "";
@@ -129,7 +129,7 @@ function constructTree(str, head, index) {
       return index + 1;
     }
     
-    else if (str[index] === ' ') {
+    else if (str[index] === ',') {
       if (value.length) {
         head.children.push(new Node(value));
         value = "";
@@ -172,16 +172,16 @@ function deconstructTree(head, str, result) {
 // Put the expression in the first element of the array
 // And the solution in the second element of the array
 let expr = [
-  ["a{b c}", "ab ac"],
-  ["a{b{c d} e{f}}", "abc abd aef"],
+  ["a{b,c}", "ab,ac"],
+  ["a{b{c,d},e{f}}", "abc,abd,aef"],
   ["a", "a"],
   ["", ""],
   ["ab", "ab"],
-  ["a b", "a b"],
-  ["a{b{c d", "abc abd"],
-  ["a{b c{d e f{a} g}}", "ab acd ace acfa acg"],
-  ["b a{n n} a", "b an an a"],
-  ["abc{def ghijklm{n opqr} st{uvwx}} yz", "abcdef abcghijklmn abcghijklmopqr abcstuvwx yz"]
+  ["a,b", "a,b"],
+  ["a{b{c,d", "abc,abd"],
+  ["a{b,c{d,e,f{a},g}}", "ab,acd,ace,acfa,acg"],
+  ["b,a{n,n},a", "b,an,an,a"],
+  ["abc{def,ghijklm{n,opqr},st{uvwx}},yz", "abcdef,abcghijklmn,abcghijklmopqr,abcstuvwx,yz"]
 ];
 
 for (let i = 0; i < expr.length; i++) {
